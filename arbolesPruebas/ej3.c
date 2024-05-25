@@ -94,11 +94,30 @@ int a_ej3_hermano(ArbolBinario A, int clave){
 
 // d.	Calcular el nivel en el que se encuentra.
 int a_ej3_nivel(ArbolBinario A, int clave);
-void calcularNivel(int a);
+void calcularNivel(ArbolBinario A, NodoArbol nodo, int *cantidad, int clave){
+    if (clave != NULL)
+    {
+        return;
+    }
+    if (n_hijoizquierdo(nodo)->datos->clave == clave || n_hijoderecho(nodo)->datos->clave == clave){
+        *cantidad++;
+    }
+    calcularNivel(A, n_hijoizquierdo, *cantidad, clave);
+    calcularNivel(A, n_hijoderecho, *cantidad, clave);
+    
+}
+int nivelNodo(ArbolBinario A, int clave){
+
+    int cantidad=0;
+    calcularNivel(A,a_raiz(A),&cantidad, clave);
+    return cantidad;
+
+}
 
 
 // e.	Calcular la altura de su rama (Altura del Subárbol)
 int a_ej3_alturarama(ArbolBinario A, int clave);
+
 // f.	Listar todos los nodos que están en el mismo nivel (solo la clave).
 Lista a_ej3_clavesmismonivel(ArbolBinario A, int nivel);
 

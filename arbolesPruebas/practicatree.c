@@ -4,30 +4,32 @@
 #include <string.h>
 #include "tp_arboles.h"
 #define COUNT 10
-NodoArbol padre(ArbolBinario A, NodoArbol nodo, int clavehijo) {
-    NodoArbol np = n_crear(0);
-    if (nodo == NULL) {
-        return NULL;
+/**
+7.	Determinar si dos árboles binarios son equivalentes.
+ */
+bool a_ej7_equivalente(ArbolBinario A, ArbolBinario B);
+
+bool equiparar(NodoArbol nodoa, NodoArbol nodob, bool *igualdad){
+    if (nodoa == NULL && nodob == NULL) {
+        return true;
     }
-    
-    // ver si el hijo izq o el dere del nodo actual tiene la clave
-    if ((n_hijoizquierdo(nodo) != NULL && n_hijoizquierdo(nodo)->datos->clave == clavehijo) || (n_hijoderecho(nodo) != NULL && n_hijoderecho(nodo)->datos->clave == clavehijo)) {
-        np = n_recuperar(nodo);
-        return np;
+    //primero equiparar nodos
+    if (n_recuperar(nodoa) == NULL && n_recuperar(nodob) != NULL || n_recuperar(nodoa) != NULL && n_recuperar(nodob) == NULL)
+    {
+        *igualdad = false;
     }
-    return padre(A, n_hijoizquierdo(nodo), clavehijo);
-    return padre(A, n_hijoderecho(nodo), clavehijo);
+    if (n_recuperar(nodoa)->clave != n_recuperar(nodob)->clave)
+    {
+        *igualdad = false;
+    }
+    equiparar(n_hijoizquierdo(nodoa),n_hijoizquierdo(nodob),igualdad);
+    equiparar(n_hijoderecho(nodoa),n_hijoderecho(nodob),igualdad);
 }
 
-int a_ej3_clavepadre(ArbolBinario A, int clavehijo) {
-    NodoArbol nodoPadre = padre(A, a_raiz(A), clavehijo);
-    if (nodoPadre != NULL) {
-        printf("La clave del padre es: %d\n", nodoPadre->datos->clave);
-        return nodoPadre->datos->clave;
-    } else {
-        printf("No se encontró un nodo padre para la clave %d\n", clavehijo);
-        return -1; // or any other suitable error code
-    }
+bool a_ej7_equivalente(ArbolBinario A, ArbolBinario B){
+    bool igualdad = true;
+    equiparar(a_raiz(A), a_raiz(B), &igualdad);
+    return igualdad;    
 }
 
 void print_arbol(NodoArbol root, int space) {
@@ -50,6 +52,7 @@ void print_arbol(NodoArbol root, int space) {
 int main()
 {
     ArbolBinario arbol = a_crear();
+    ArbolBinario arbolb = a_crear();
     TipoElemento elemento;
     NodoArbol nodo;
 
@@ -83,6 +86,37 @@ int main()
     print_arbol(a_raiz(arbol), 0);
     printf("-----------------------------------------------------\n");
 
-    a_ej3_clavepadre(arbol,9);
+    // Inserto la Raiz
+    elemento = te_crear(8);
+    a_establecer_raiz(arbolb, elemento);
 
+    elemento = te_crear(6);
+    nodo = a_conectar_hi(arbolb, a_raiz(arbolb), elemento);
+
+    elemento = te_crear(5);
+    a_conectar_hi(arbolb, nodo, elemento);
+
+    elemento = te_crear(7);
+    a_conectar_hd(arbolb, nodo, elemento);
+
+    elemento = te_crear(13);
+    nodo = a_conectar_hd(arbolb, a_raiz(arbolb), elemento);
+
+    elemento = te_crear(9);
+    a_conectar_hi(arbolb, nodo, elemento);
+
+    elemento = te_crear(11);
+    a_conectar_hd(arbolb, nodo, elemento);
+    // Print the tree structure
+    printf("-----------------------------------------------------\n");
+    printf("Arbol Binario b:\n");
+    print_arbol(a_raiz(arbolb), 0);
+    printf("-----------------------------------------------------\n");
+
+    bool equivalentes = a_ej7_equivalente(arbol, arbolb);
+    if (equivalentes) {
+        printf("Los arboles son equivalentes.\n");
+    } else {
+        printf("Los arboles no son equivalentes.\n");
+    }
 }
