@@ -76,7 +76,25 @@ bool a_ej4_similares(ArbolBinario A, ArbolBinario B){
 
 // d.	Retornar el padre de un nodo del árbol (tipo_elemento).
 TipoElemento a_ej4_padre(ArbolBinario A, int clave);
-
+//dada una clave retornar su padre
+int buscarClave(NodoArbol nodo, int clave){
+    TipoElemento padre = te_crear(0);
+    if (nodo == NULL){
+        return;
+    }
+    if (n_hijoizquierdo(nodo)->datos->clave == clave || n_hijoizquierdo(nodo)->datos->clave == clave){
+        padre = n_recuperar(nodo);
+    }
+    buscarClave(n_hijoizquierdo(nodo), clave);
+    buscarClave(n_hijoderecho(nodo), clave);
+    
+}
+TipoElemento a_ej4_padre(ArbolBinario A, int clave){
+    TipoElemento padre = te_crear(0);
+    padre = buscarClave(a_raiz(A), clave);
+    printf("%s", padre);
+}
 
 // e.	Retornar los hermanos de un nodo del árbol (lista de hermanos).
 Lista a_ej4_hermanos(ArbolBinario A, int clave);
+
