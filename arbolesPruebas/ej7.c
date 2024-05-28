@@ -13,7 +13,7 @@ bool equiparar(NodoArbol nodoa, NodoArbol nodob, bool *igualdad){
     if (nodoa == NULL && nodob == NULL) {
         return true;
     }
-    //primero equiparar nodos
+    // equiparar nodos
     if (n_recuperar(nodoa) == NULL && n_recuperar(nodob) != NULL || n_recuperar(nodoa) != NULL && n_recuperar(nodob) == NULL)
     {
         *igualdad = false;
