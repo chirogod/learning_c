@@ -4,48 +4,30 @@
 #include <string.h>
 #include "tp_arboles.h"
 #define COUNT 10
+
 /**
-7.	Determinar si dos árboles binarios son equivalentes.
+4.	Para Árboles “N-arios”:
  */
-bool a_ej7_equivalente(ArbolBinario A, ArbolBinario B);
-
-bool equiparar(NodoArbol nodoa, NodoArbol nodob, bool *igualdad){
-    if (nodoa == NULL && nodob == NULL) {
-        return true;
-    }
-    //primero equiparar nodos
-    if (n_recuperar(nodoa) == NULL && n_recuperar(nodob) != NULL || n_recuperar(nodoa) != NULL && n_recuperar(nodob) == NULL)
+// b.	Escribir una función que, dado un árbol n-ario(que igual se carga de manera que es un n-ario transformado en binario) devuelva el número (cantidad) de hojas de dicho árbol.
+int a_ej4_q_hojas(ArbolBinario A);
+void cantidadHojas(NodoArbol nodo, int *cantidad){
+    if (nodo == NULL)
     {
-        *igualdad = false;
-    }
-    if (n_recuperar(nodoa)->clave != n_recuperar(nodob)->clave)
-    {
-        *igualdad = false;
-    }
-    equiparar(n_hijoizquierdo(nodoa),n_hijoizquierdo(nodob),igualdad);
-    equiparar(n_hijoderecho(nodoa),n_hijoderecho(nodob),igualdad);
-}
-
-bool a_ej7_equivalente(ArbolBinario A, ArbolBinario B){
-    bool igualdad = true;
-    equiparar(a_raiz(A), a_raiz(B), &igualdad);
-    return igualdad;    
-}
-
-void print_arbol(NodoArbol root, int space) {
-    if (root == NULL)
         return;
-
-    space += COUNT;
-
-    print_arbol(n_hijoderecho(root), space);
-
-    printf("\n");
-    for (int i = COUNT; i < space; i++)
-        printf(" ");
-    printf("%d\n", root->datos->clave);
-
-    print_arbol(n_hijoizquierdo(root), space);
+    }
+    if (n_hijoizquierdo(nodo) == NULL && n_hijoderecho(nodo) == NULL)
+    {
+        (*cantidad)++;
+    }
+    
+    cantidadHojas(n_hijoizquierdo(nodo), *cantidad);
+    cantidadHojas(n_hijoderecho(nodo), *cantidad);
+    
+}
+int a_ej4_q_hojas(ArbolBinario A){
+    int cantidad = 0;
+    cantidadHojas(a_raiz(A), &cantidad);
+    return cantidad;
 }
 
 
@@ -58,25 +40,37 @@ int main()
 
 
     // Inserto la Raiz
-    elemento = te_crear(8);
+    elemento = te_crear("m");
     a_establecer_raiz(arbol, elemento);
 
-    elemento = te_crear(6);
+    elemento = te_crear("e");
     nodo = a_conectar_hi(arbol, a_raiz(arbol), elemento);
 
-    elemento = te_crear(5);
-    a_conectar_hi(arbol, nodo, elemento);
-
-    elemento = te_crear(7);
+    elemento = te_crear("l");
     a_conectar_hd(arbol, nodo, elemento);
 
-    elemento = te_crear(10);
-    nodo = a_conectar_hd(arbol, a_raiz(arbol), elemento);
+    elemento = te_crear("b");
+    nodo =a_conectar_hi(arbol, nodo, elemento);
 
-    elemento = te_crear(9);
+    elemento = te_crear("a");
     a_conectar_hi(arbol, nodo, elemento);
 
-    elemento = te_crear(11);
+    elemento = te_crear("d");
+    a_conectar_hd(arbol, nodo, elemento);
+
+    elemento = te_crear("p");
+    nodo = a_conectar_hd(arbol, a_raiz(arbol), elemento);
+
+    elemento = te_crear("n");
+    a_conectar_hi(arbol,nodo, elemento);
+
+    elemento = te_crear("v");
+    nodo = a_conectar_hd(arbol, nodo, elemento);
+
+    elemento = te_crear("t");
+    a_conectar_hi(arbol, nodo, elemento);
+
+    elemento = te_crear("z");
     a_conectar_hd(arbol, nodo, elemento);
 
 
@@ -86,37 +80,7 @@ int main()
     print_arbol(a_raiz(arbol), 0);
     printf("-----------------------------------------------------\n");
 
-    // Inserto la Raiz
-    elemento = te_crear(8);
-    a_establecer_raiz(arbolb, elemento);
+    int hojas = a_ej4_q_hojas(arbol);
+    printf("Cantidad de hojas del árbol: %d\n", hojas);
 
-    elemento = te_crear(6);
-    nodo = a_conectar_hi(arbolb, a_raiz(arbolb), elemento);
-
-    elemento = te_crear(5);
-    a_conectar_hi(arbolb, nodo, elemento);
-
-    elemento = te_crear(7);
-    a_conectar_hd(arbolb, nodo, elemento);
-
-    elemento = te_crear(13);
-    nodo = a_conectar_hd(arbolb, a_raiz(arbolb), elemento);
-
-    elemento = te_crear(9);
-    a_conectar_hi(arbolb, nodo, elemento);
-
-    elemento = te_crear(11);
-    a_conectar_hd(arbolb, nodo, elemento);
-    // Print the tree structure
-    printf("-----------------------------------------------------\n");
-    printf("Arbol Binario b:\n");
-    print_arbol(a_raiz(arbolb), 0);
-    printf("-----------------------------------------------------\n");
-
-    bool equivalentes = a_ej7_equivalente(arbol, arbolb);
-    if (equivalentes) {
-        printf("Los arboles son equivalentes.\n");
-    } else {
-        printf("Los arboles no son equivalentes.\n");
-    }
 }
