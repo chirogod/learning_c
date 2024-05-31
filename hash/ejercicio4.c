@@ -8,7 +8,7 @@ valor de 6 dígitos.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "tabla_hash.h" // Suponiendo que tienes definido aquí tu TAD TablaHash
+#include "tabla_hash.h"
 
 #define MAX_LEGAJO_DIGITOS 6
 #define NOMBRE_ARCHIVO "alumnos.txt"
