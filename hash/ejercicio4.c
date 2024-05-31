@@ -34,9 +34,9 @@ void cargarTablaDesdeArchivo(TablaHash th) {
         return;
     }
 
-    while (fscanf(falum, "%d %s %s %s \n]", &alumno.legajo, alumno.apellido, alumno.nombre, alumno.domicilio) == 4)
+    while (fscanf(falum, "%d %s %s %s \n]", alumno.legajo, alumno.apellido, alumno.nombre, alumno.domicilio) == 4)
     {
-        th_insertar(th, &alumno); // Pass the address of the alumno struct
+        th_insertar(th, alumno.legajo); // Pass the address of the alumno struct
     }
 
     fclose(falum);
