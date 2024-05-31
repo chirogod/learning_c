@@ -1,6 +1,6 @@
 #ifndef TABLA_HASH_H
 #define TABLA_HASH_H
-
+#include <stdbool.h>
 #include "tipo_elemento.h"
 
 struct TablaHashRep;
