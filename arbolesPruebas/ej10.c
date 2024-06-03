@@ -1,3 +1,7 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "tp_arboles.h"
 /**
 10.	Dada una serie de números generados al azar, cargar la misma serie en un árbol binario de búsqueda y en un árbol binario balanceado “AVL”.  
@@ -7,7 +11,18 @@
  */
 // Generamos una lista con la seria de numeros
 Lista a_ej10_generarlistaclaves(int cantidadclavesagenerar);
+Lista a_ej10_generarlistaclaves(int cantidadclavesagenerar){
 
+	Lista lista = l_crear();
+	TipoElemento numero = te_crear(0);
+	for (int i = 0; i < cantidadclavesagenerar; i++){
+		int numero = rand() % 11;
+		l_agregar(lista, numero);
+	}
+	return lista;
+	
+	
+}
 // Ahora se la paso a la funcion que crea los 2 arboles
 ArbolBinarioBusqueda a_ej10_crearABB(Lista L);
 ArbolAVL a_ej10_crearAVL(Lista L);
