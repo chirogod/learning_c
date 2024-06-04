@@ -11,106 +11,63 @@ valor de 6 dígitos.
 #include "tabla_hash.h"
 #define TAMANO_HASH 100
 
-typedef struct {
-    int legajo;
-    char apellido[20];
-    char nombre[20];
-    char domicilio[50];
-} Alumno;
+void guardarLegajoABM(TablaHash th){
 
+    FILE *archivo;
+    archivo=fopen("alumnos.txt","r");
 
+    //Leemos los registros
+    int legajo, te;
+    char nom[20], dom[20];
 
-int hashFunction(int clave){
-    return clave % TAMANO_HASH;
-}
-
-void cargarTablaDesdeArchivo(TablaHash th) {
-    FILE *falum;
-    Alumno alumno;
-
-    falum = fopen("alumnos.txt", "r");
-    if (falum == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return;
-    }
-
-    while (fscanf(falum, "%d %s %s %s \n]", alumno.legajo, alumno.apellido, alumno.nombre, alumno.domicilio) == 4)
-    {
-        th_insertar(th, alumno.legajo); // Pass the address of the alumno struct
-    }
-
-    fclose(falum);
-}
-
-int main() {
-    TablaHash th = th_crear(TAMANO_HASH, hashFunction);
-    cargarTablaDesdeArchivo(th);
-    return 0;
-}
-
-
-
-
-
-
-
-
-/*
-
-
-void cargarAlumno() {
-    FILE *falum;
-    Alumno alumno;
-
-    falum = fopen("alumnos.txt", "a+");
-    if (falum == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return;
-    }
-
-    printf("Legajo del alumno: ");
-    scanf("%d", &alumno.legajo);
-    printf("Nombre del alumno: ");
-    scanf("%s", alumno.nombre);
-    printf("Apellido del alumno: ");
-    scanf("%s", alumno.apellido);
-    printf("Domicilio del alumno: ");
-    scanf("%s", alumno.domicilio);
-
-    fprintf(falum, "%d %s %s %s %s\n", alumno.legajo, alumno.apellido, alumno.nombre, alumno.domicilio);
-    
-    fclose(falum);
-}
-
-int main() {
-    int operacion = 0;
-
-    /*while (operacion != -1) {
-        printf("MENU\n");
-        printf("Opcion 1: agregar alumno \n");
-        printf("Opcion 2: modificar alumno \n");
-        printf("Opcion 3: eliminar alumno \n");
-        printf("Opcion -1: salir \n");
-        printf("Ingrese una opción: ");
-        scanf("%d", &operacion);
-
-        switch (operacion) {
-            case 1:
-                cargarAlumno();
-                break;
-            case 2:
-                // Función para modificar alumno
-                break;
-            case 3:
-                // Función para eliminar alumno
-                break;
-            case -1:
-                printf("Saliendo...\n");
-                break;
-            default:
-                printf("Opción no válida.\n");
+    while(!(feof(archivo))){
+        fscanf(archivo,"%d %s %s %d",&legajo,&nom,&dom,&te);
+        TipoElemento e=te_crear(legajo);
+        th_insertar(th,e); //INSERTAMOS EL LEGAJO COMO CLAVE EN LA TABLA HASH
         }
-    }
+
+    fclose(archivo); 
+
+}
+/*
+void ABM_Alumnos(){
+
+    FILE *archivo;
+    archivo=fopen("alumnos.txt","a");
+
+    //Escribimos el archivo
+    int legajo, te;
+    char nom[20], dom[20];
+
+    printf("Ingrese el LEGAJO del alumno: ");
+    scanf("%d",&legajo);
+    printf("Ingrese el APELLIDO,NOMBRE del alumno: ");
+    scanf("%s",&nom);
+    printf("Ingrese el DOMICILIO del alumno: ");
+    scanf("%s",&dom);
+    printf("Ingrese el TELEFONO del alumno: ");
+    scanf("%d",&te);
+
+    fprintf(archivo,"%d %s %s %d\n",legajo,nom,dom,te); //imprimir datos al final del archivo
+
+    fclose(archivo); 
+
+}
+*/
+//FUNCIÓN HASH
+int hashfunction(int clave){
+    return clave%TAMANO_HASH;
+}
+
+
+int main() {
+    TablaHash th = th_crear(TAMANO_HASH, &hashfunction);
+
+    // Cargar datos desde el archivo y guardarlos en la tabla hash
+    guardarLegajoABM(th);
+
+    // Mostrar los datos de la tabla hash
+    th_mostrar(th);
 
     return 0;
-}*/
+}
